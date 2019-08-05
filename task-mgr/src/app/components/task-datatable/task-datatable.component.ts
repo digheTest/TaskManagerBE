@@ -1,10 +1,18 @@
-import { Component, OnInit, Input, OnChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  Output,
+  EventEmitter
+} from "@angular/core";
 import { TaskService } from "src/app/services/task.service";
 import { Task } from "src/app/models/task";
 import { Router } from "@angular/router";
 import { FormGroup, FormControl } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { of } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-task-datatable",
@@ -27,6 +35,8 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
 
   @Input() tasks;
 
+  @Output() refresh = new EventEmitter();
+
   dataSource = new MatTableDataSource();
 
   filterValues = {
@@ -41,8 +51,9 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
   constructor(private router: Router, private taskService: TaskService) {}
 
   ngOnChanges() {
-    if (this.tasks)
+    if (this.tasks) {
       of(this.tasks).subscribe(tasks => (this.dataSource.data = tasks));
+    }
   }
 
   ngOnInit() {
@@ -121,6 +132,10 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
 
   edit(task: Task) {
     this.router.navigate(["/update", task.id]);
+  }
+
+  endTask(task: Task) {
+    this.taskService.endTask(task).subscribe(item => this.refresh.emit(item));
   }
 
   getParentTask(parentTaskId) {

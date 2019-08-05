@@ -15,4 +15,8 @@ export class ViewTasksComponent implements OnInit {
   ngOnInit() {
     this.allTasks = this.taskService.getAllTasks();
   }
+
+  refresh() {
+    this.allTasks = this.taskService.getAllTasks();
+  }
 }
