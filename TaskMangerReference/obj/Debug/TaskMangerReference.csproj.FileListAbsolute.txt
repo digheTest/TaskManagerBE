@@ -1,0 +1,12 @@
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\TaskMangerReference.dll.config
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\TaskMangerReference.dll
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\TaskMangerReference.pdb
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\EntityFramework.dll
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\EntityFramework.xml
+C:\Users\prash\source\repos\TaskMangerReference\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.csproj.CoreCompileInputs.cache
+C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.csproj.CopyComplete
+C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.dll
+C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.pdb
+C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.csprojAssemblyReference.cache
