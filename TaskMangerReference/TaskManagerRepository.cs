@@ -22,7 +22,7 @@ namespace TaskReference
         public IQueryable<Task_Tbl> GetAllTaskRepo()
         {
             TaskManagerDbEntities tmdb = new TaskManagerDbEntities();
-            return tmdb.Task_Tbl;
+            return tmdb.Task_Tbl.Where(t => t.Parent_ID == null || t.Parent_ID > 0);
         }
         public Task_Tbl GetTaskRepo(int TaskID)
         {
