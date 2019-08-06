@@ -9,4 +9,3 @@ C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.cs
 C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.csproj.CopyComplete
 C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.dll
 C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.pdb
-C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.csprojAssemblyReference.cache

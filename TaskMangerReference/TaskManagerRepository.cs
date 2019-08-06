@@ -17,12 +17,12 @@ namespace TaskReference
         public Parent_Task_Tbl GetParentTaskRepo(int ParentID)
         {
             TaskManagerDbEntities tmdb = new TaskManagerDbEntities();
-            return tmdb.Parent_Task_Tbl.Where(p => p.Parent_ID == ParentID).Select(p => p).FirstOrDefault();
+            return tmdb.Parent_Task_Tbl.Where(p => p.Parent_ID == ParentID).Select(p => p).FirstOrDefault();   
         }
         public IQueryable<Task_Tbl> GetAllTaskRepo()
         {
             TaskManagerDbEntities tmdb = new TaskManagerDbEntities();
-            return tmdb.Task_Tbl.Where(t => t.Parent_ID == null || t.Parent_ID > 0);
+            return tmdb.Task_Tbl.Where(t => t.Parent_ID == null || t.Parent_ID == 0);
         }
         public Task_Tbl GetTaskRepo(int TaskID)
         {
