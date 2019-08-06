@@ -26,6 +26,8 @@ export class TaskEditorComponent implements OnInit {
 
   parents: any;
 
+  parentTaskName;
+
   filteredParents;
 
   constructor(
@@ -70,7 +72,10 @@ export class TaskEditorComponent implements OnInit {
 
     this.filteredParents = taskFormGroup.parentTask.valueChanges.pipe(
       startWith(""),
-      map(val => (val ? this._filterParentTasks(val) : this.parents.slice()))
+      map(val => {
+        this.parentTaskName = val;
+        return val ? this._filterParentTasks(val) : this.parents.slice();
+      })
     );
 
     this.taskForm = new FormGroup(taskFormGroup);
@@ -78,9 +83,11 @@ export class TaskEditorComponent implements OnInit {
 
   _filterParentTasks(val) {
     const filterValue = val.toLowerCase();
-    return this.parents.filter(
-      parent => parent.ParentTaskName.toLowerCase().indexOf(filterValue) === 0
-    );
+    let parentTaskName = "";
+    return this.parents.filter(parent => {
+      parentTaskName = parent.ParentTaskName || "";
+      return parentTaskName.toLowerCase().indexOf(filterValue) === 0;
+    });
   }
 
   processTaskForm(taskFormObj) {
@@ -96,7 +103,10 @@ export class TaskEditorComponent implements OnInit {
       );
       let parentTaskID = parentTask ? parentTask.ParentTaskID : -1;
       this.emitTask.emit(
-        Object.assign(taskFormObj, { parentTask: parentTaskID })
+        Object.assign(taskFormObj, {
+          parentTask: parentTaskID,
+          parentTaskName: this.parentTaskName
+        })
       );
     }
   }

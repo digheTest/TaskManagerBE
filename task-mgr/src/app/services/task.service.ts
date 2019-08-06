@@ -7,8 +7,7 @@ import { map, mergeMap } from "rxjs/operators";
   providedIn: "root"
 })
 export class TaskService {
-  static BASE_URL =
-    "https://a008e573-73ab-4aa2-b4f3-ef956100bbe7.mock.pstmn.io/api/values";
+  static BASE_URL = "https://localhost:44366/api/values";
 
   tasks: Array<Task> = [];
   parentTasks: Array<any> = [];
@@ -16,40 +15,37 @@ export class TaskService {
   constructor(private http: HttpClient) {}
 
   saveTask(task) {
-    if (task.parentTask) {
-      let parentTask = this.parentTasks.find(
-        parent => parent.ParentTaskID === task.parentTask
-      );
-
-      return this.http
-        .post(`${TaskService.BASE_URL}/CreateParentTask`, {
-          ParentTaskName: parentTask.ParentTaskName
+    return this.http
+      .post(`${TaskService.BASE_URL}/ManageTask`, {
+        ParentTaskID: task.parentTask,
+        ParentTaskName: task.parentTaskName,
+        Task: [
+          {
+            TaskId: task.id,
+            TaskName: task.task,
+            StartDate: task.startDate,
+            EndDate: task.endDate,
+            Priority: task.priority,
+            IsCompleted: false
+          }
+        ]
+      })
+      .pipe(
+        map(item => {
+          return item;
         })
-        .pipe(
-          mergeMap(item =>
-            this.http.post(`${TaskService.BASE_URL}/CreateTask`, {
-              TaskName: task.task,
-              StartDate: task.startDate,
-              EndDate: task.endDate,
-              Priority: task.priority,
-              IsCompleted: false
-            })
-          )
-        )
-        .pipe(
-          map(item => {
-            return item;
-          })
-        );
-    } else {
-      return this.http.post(`${TaskService.BASE_URL}/CreateTask`, {
-        TaskName: task.task,
-        StartDate: task.startDate,
-        EndDate: task.endDate,
-        Priority: task.priority,
-        IsCompleted: false
-      });
-    }
+      );
+  }
+
+  endTask(task) {
+    return this.http.put(`${TaskService.BASE_URL}/EditEndTask`, {
+      TaskId: task.id,
+      TaskName: task.task,
+      StartDate: task.startDate,
+      EndDate: task.endDate,
+      Priority: task.priority,
+      IsCompleted: true
+    });
   }
 
   getTask(taskID) {
@@ -85,7 +81,8 @@ export class TaskService {
                   priority: task.Priority,
                   parentTask: parent.ParentTaskID,
                   startDate: new Date(task.StartDate),
-                  endDate: new Date(task.EndDate)
+                  endDate: new Date(task.EndDate),
+                  isCompleted: task.IsCompleted
                 })
               )
             );

@@ -5,6 +5,8 @@ export class Task {
   endDate: Date;
   priority: number;
   parentTask: number;
+  parentTaskName: string;
+  isCompleted: boolean;
 
   constructor(
     options: {
@@ -14,6 +16,8 @@ export class Task {
       endDate?: Date;
       priority?: number;
       parentTask?: number;
+      parentTaskName?: string;
+      isCompleted?: boolean;
     } = {}
   ) {
     this.id = options.id || 0;
@@ -22,5 +26,7 @@ export class Task {
     this.endDate = options.endDate || new Date();
     this.priority = options.priority || 0;
     this.parentTask = options.parentTask || 0;
+    this.parentTaskName = options.parentTaskName || "";
+    this.isCompleted = options.isCompleted || false;
   }
 }

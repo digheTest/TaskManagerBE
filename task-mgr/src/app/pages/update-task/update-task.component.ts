@@ -25,6 +25,8 @@ export class UpdateTaskComponent implements OnInit {
   }
 
   processTask(taskObj) {
-    this.taskService.saveTask(Object.assign(taskObj, { id: this.taskID }));
+    this.taskService
+      .saveTask(Object.assign(taskObj, { id: this.taskID }))
+      .subscribe(item => console.log(item));
   }
 }

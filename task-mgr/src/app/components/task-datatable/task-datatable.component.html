@@ -95,14 +95,14 @@
         mat-raised-button
         (click)="edit(taskObj)"
         style="margin-right: 10px;"
-        [disabled]="taskObj.IsCompleted"
+        [disabled]="taskObj.isCompleted"
       >
         Edit
       </button>
       <button
         mat-raised-button
-        (click)="edit(taskObj)"
-        [disabled]="taskObj.IsCompleted"
+        (click)="endTask(taskObj)"
+        [disabled]="taskObj.isCompleted"
       >
         End Task
       </button>
