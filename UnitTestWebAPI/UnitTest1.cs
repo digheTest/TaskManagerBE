@@ -13,12 +13,12 @@ namespace UnitTestWebAPI
     public class UnitTest1
     {
         private Counter _opCounter;
+        private ValuesController _controller = new ValuesController();
         [TestMethod]
         public void Get()
         {
-            var controller = new ValuesController();
             // Act on Test  
-            var response = controller.Get();
+            var response = _controller.Get();
             var contentResult = response as IEnumerable<ParentTaskModel>;
             // Assert the result  
             Assert.IsNotNull(contentResult);
@@ -26,15 +26,13 @@ namespace UnitTestWebAPI
         [TestMethod]
         public void CreateParentTask()
         {
-            var controller = new ValuesController();
             // Act on Test  
-            
             ParentTaskModel parentTask = new ParentTaskModel()
             {
                 ParentTaskName = "New Task",
             };
 
-            IHttpActionResult response = controller.CreateParentTask(parentTask);
+            IHttpActionResult response = _controller.CreateParentTask(parentTask);
             var contentResult = response as OkNegotiatedContentResult<JObject>;
             // Assert the result  
             Assert.IsNotNull(contentResult);
@@ -52,6 +50,59 @@ namespace UnitTestWebAPI
         {
             Get();
             _opCounter.Increment();
+        }
+        [TestMethod]
+        public void ManageTask()
+        {
+         
+            // Act on Test  
+            List<TaskModel> tasks = new List<TaskModel>();
+            TaskModel task = new TaskModel()
+            {
+                TaskName = "New Child Task",
+                Priority = 1,
+                StartDate = "10-08-2019",
+                EndDate = "10-10-2019",
+                IsCompleted = false,
+            };
+            tasks.Add(task);
+
+            ParentTaskModel parentTask = new ParentTaskModel()
+            {
+                ParentTaskID = -1,
+                ParentTaskName = "New Parent Task",
+                Task = tasks,
+            };
+
+            IHttpActionResult response = _controller.ManageTask(parentTask);
+            var contentResult = response as OkNegotiatedContentResult<JObject>;
+            // Assert the result  
+            Assert.IsNotNull(contentResult);
+        }
+        [TestMethod]
+        public void EditEndTask()
+        {
+            TaskModel task = new TaskModel()
+            {
+                TaskId = 6007,
+                TaskName = "Wow Good!!",
+                Priority = 1,
+                StartDate = "10-11-2019",
+                EndDate = "10-12-2019",
+                IsCompleted = true,
+            };
+
+            IHttpActionResult response = _controller.EditEndTask(task);
+            var contentResult = response as OkNegotiatedContentResult<JObject>;
+            // Assert the result  
+            Assert.IsNotNull(contentResult);
+        }
+        [TestMethod]
+        public void DeleteTask()
+        {
+            IHttpActionResult response = _controller.DeleteTask(6008);
+            // Assert the result  
+            Assert.IsNotNull(response.ToString().Contains(""));
         }
     }
 }
