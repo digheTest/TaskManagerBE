@@ -9,3 +9,14 @@ C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.cs
 C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.csproj.CopyComplete
 C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.dll
 C:\Users\prash\source\repos\TaskMangerReference\obj\Debug\TaskMangerReference.pdb
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\TaskMangerReference.dll.config
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\TaskMangerReference.dll
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\TaskMangerReference.pdb
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\EntityFramework.dll
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\EntityFramework.xml
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\obj\Debug\TaskMangerReference.csproj.CoreCompileInputs.cache
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\obj\Debug\TaskMangerReference.csproj.CopyComplete
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\obj\Debug\TaskMangerReference.dll
+C:\Users\prash\Source\Repos\TaskManagerBE2\TaskMangerReference\obj\Debug\TaskMangerReference.pdb

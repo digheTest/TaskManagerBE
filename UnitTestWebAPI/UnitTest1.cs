@@ -31,11 +31,9 @@ namespace UnitTestWebAPI
             {
                 ParentTaskName = "New Task",
             };
-
-            IHttpActionResult response = _controller.CreateParentTask(parentTask);
-            var contentResult = response as OkNegotiatedContentResult<JObject>;
+                       
             // Assert the result  
-            Assert.IsNotNull(contentResult);
+            Assert.IsNotNull(_controller.CreateParentTask(parentTask));
         }
         [PerfSetup]
         public void SetUp(BenchmarkContext context)
