@@ -14,7 +14,7 @@ import { Observable } from "rxjs";
   styleUrls: ["./task-editor.component.scss"]
 })
 export class TaskEditorComponent implements OnInit {
-  @Input() mode: string;
+  mode: string;
 
   @Input("task") taskObj: Task;
 
@@ -43,6 +43,8 @@ export class TaskEditorComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mode = !this.taskObj ? "create" : "update";
+
     this.title = this.mode === "create" ? "Add Task" : "Edit Task";
     this.btnTxt = this.mode === "create" ? "Save" : "Update";
 

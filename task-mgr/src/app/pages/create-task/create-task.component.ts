@@ -10,8 +10,6 @@ import { Router } from "@angular/router";
   styleUrls: ["./create-task.component.scss"]
 })
 export class CreateTaskComponent implements OnInit {
-  mode: string = "create";
-
   task: Task;
 
   constructor(

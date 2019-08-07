@@ -29,7 +29,7 @@ export class UpdateTaskComponent implements OnInit {
 
   processTask(task: Task) {
     this.taskService
-      .saveTask(Object.assign(task, { taskId: this.taskId, parentTaskId: -1 }))
+      .saveTask(Object.assign(task, { taskId: this.taskId }))
       .subscribe(() =>
         this._snackBar
           .open(`Task ${task.taskName} updated successfully!`, "Close", {

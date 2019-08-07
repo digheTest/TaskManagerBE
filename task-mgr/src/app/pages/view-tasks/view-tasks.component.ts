@@ -14,7 +14,7 @@ export class ViewTasksComponent implements OnInit {
   constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    this.allTasks = this.taskService.getAllTasks();
+    this.refresh();
   }
 
   refresh() {
