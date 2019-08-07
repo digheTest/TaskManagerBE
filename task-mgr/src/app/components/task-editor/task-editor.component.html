@@ -6,7 +6,7 @@
     <form [formGroup]="taskForm" (submit)="processTaskForm(taskForm.value)">
       <mat-form-field>
         <mat-label>Task</mat-label>
-        <input matInput formControlName="task" />
+        <input matInput formControlName="taskName" />
       </mat-form-field>
 
       <br />
@@ -29,14 +29,14 @@
           placeholder="Parent Task"
           aria-label="Parent Task"
           [matAutocomplete]="auto"
-          formControlName="parentTask"
+          formControlName="parentTaskName"
         />
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
             *ngFor="let parent of filteredParents | async"
-            [value]="parent.ParentTaskName"
+            [value]="parent.parentTaskName"
           >
-            {{ parent.ParentTaskName }}
+            {{ parent.parentTaskName }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -75,12 +75,14 @@
           mat-raised-button
           color="primary"
           type="submit"
-          [disabled]="!taskForm.valid"
+          [disabled]="primaryDisable"
         >
           {{ btnTxt }}
         </button>
 
-        <button mat-raised-button type="reset">Reset</button>
+        <button mat-raised-button type="reset" [disabled]="secondaryDisable">
+          Reset
+        </button>
       </mat-card-actions>
     </form>
   </mat-card-content>

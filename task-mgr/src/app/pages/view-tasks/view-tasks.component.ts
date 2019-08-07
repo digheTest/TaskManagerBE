@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { TaskService } from "src/app/services/task.service";
 import { Task } from "src/app/models/task";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-view-tasks",
@@ -8,7 +9,7 @@ import { Task } from "src/app/models/task";
   styleUrls: ["./view-tasks.component.scss"]
 })
 export class ViewTasksComponent implements OnInit {
-  allTasks: any;
+  allTasks: Observable<Array<Task>>;
 
   constructor(private taskService: TaskService) {}
 

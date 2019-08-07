@@ -10,9 +10,8 @@ import { TaskService } from "src/app/services/task.service";
 import { Task } from "src/app/models/task";
 import { Router } from "@angular/router";
 import { FormGroup, FormControl } from "@angular/forms";
-import { MatTableDataSource } from "@angular/material";
+import { MatTableDataSource, MatSnackBar } from "@angular/material";
 import { of } from "rxjs";
-import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-task-datatable",
@@ -20,7 +19,7 @@ import { map } from "rxjs/operators";
   styleUrls: ["./task-datatable.component.scss"]
 })
 export class TaskDatatableComponent implements OnInit, OnChanges {
-  allColumns = [
+  allColumns: Array<string> = [
     "task",
     "parent",
     "priority",
@@ -33,7 +32,7 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
 
   filters = [];
 
-  @Input() tasks;
+  @Input() tasks: Array<Task>;
 
   @Output() refresh = new EventEmitter();
 
@@ -48,7 +47,11 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
     endDate: ""
   };
 
-  constructor(private router: Router, private taskService: TaskService) {}
+  constructor(
+    private router: Router,
+    private taskService: TaskService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnChanges() {
     if (this.tasks) {
@@ -57,7 +60,7 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    let filterFormGroup = {
+    const filterFormGroup = {
       task: new FormControl(),
       parentTask: new FormControl(),
       priorityFrom: new FormControl(),
@@ -97,25 +100,25 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
   }
 
   createFilter() {
-    let self = this;
-    return function(data, filter) {
-      let searchTerms = JSON.parse(filter);
-      let taskCheck = data.task.toLowerCase().indexOf(searchTerms.task) !== -1;
-      let parentTaskCheck =
-        self.taskService
-          .getParentTask(data.parentTask)
-          .ParentTaskName.toLowerCase()
+    return (data, filter) => {
+      const searchTerms = JSON.parse(filter);
+      const taskCheck =
+        data.taskName.toLowerCase().indexOf(searchTerms.task) !== -1;
+      const parentTaskCheck =
+        this.taskService
+          .getParentTask(data.parentTaskId)
+          .parentTaskName.toLowerCase()
           .indexOf(searchTerms.parentTask) !== -1;
-      let priorityFromCheck = searchTerms.priorityFrom
+      const priorityFromCheck = searchTerms.priorityFrom
         ? parseInt(data.priority) >= parseInt(searchTerms.priorityFrom)
         : true;
-      let priorityToCheck = searchTerms.priorityTo
+      const priorityToCheck = searchTerms.priorityTo
         ? parseInt(searchTerms.priorityTo) >= parseInt(data.priority)
         : true;
-      let startDateCheck = searchTerms.startDate
+      const startDateCheck = searchTerms.startDate
         ? +new Date(searchTerms.startDate) - +data.startDate >= 0
         : true;
-      let endDateCheck = searchTerms.endDate
+      const endDateCheck = searchTerms.endDate
         ? +data.endDate - +new Date(searchTerms.endDate) >= 0
         : true;
 
@@ -131,14 +134,23 @@ export class TaskDatatableComponent implements OnInit, OnChanges {
   }
 
   edit(task: Task) {
-    this.router.navigate(["/update", task.id]);
+    this.router.navigate(["/update", task.taskId]);
   }
 
   endTask(task: Task) {
-    this.taskService.endTask(task).subscribe(item => this.refresh.emit(item));
+    this.taskService.endTask(task).subscribe(res => {
+      this.refresh.emit(res);
+      this._snackBar.open(
+        `Task ${task.taskName} ended successfully!`,
+        "Close",
+        {
+          duration: 3000
+        }
+      );
+    });
   }
 
-  getParentTask(parentTaskId) {
+  getParentTask(parentTaskId: number) {
     return this.taskService.getParentTask(parentTaskId);
   }
 }

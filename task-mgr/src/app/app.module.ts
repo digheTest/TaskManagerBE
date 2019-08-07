@@ -1,11 +1,17 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+
 import { TaskEditorComponent } from "./components/task-editor/task-editor.component";
+import { TaskDatatableComponent } from "./components/task-datatable/task-datatable.component";
+
 import { CreateTaskComponent } from "./pages/create-task/create-task.component";
+import { ViewTasksComponent } from "./pages/view-tasks/view-tasks.component";
+import { UpdateTaskComponent } from "./pages/update-task/update-task.component";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -14,14 +20,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatNativeDateModule } from "@angular/material";
 import { MatCardModule } from "@angular/material/card";
-import { ViewTasksComponent } from "./pages/view-tasks/view-tasks.component";
-import { MessageComponent } from "./components/message/message.component";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { UpdateTaskComponent } from "./pages/update-task/update-task.component";
-import { TaskDatatableComponent } from "./components/task-datatable/task-datatable.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -34,7 +35,6 @@ import { MatTabsModule } from "@angular/material/tabs";
     TaskEditorComponent,
     CreateTaskComponent,
     ViewTasksComponent,
-    MessageComponent,
     UpdateTaskComponent,
     TaskDatatableComponent
   ],
@@ -43,6 +43,7 @@ import { MatTabsModule } from "@angular/material/tabs";
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
