@@ -1,4 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { NavLink } from "./models/nav-link";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -6,8 +8,8 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  title = "task-mgr";
-  navLinks = [
+  title: string = "task-mgr";
+  navLinks: Array<NavLink> = [
     {
       path: ["/view"],
       label: "View Tasks"
@@ -17,5 +19,5 @@ export class AppComponent {
       label: "Add Task"
     }
   ];
-  activeLink;
+  activeLink: Array<string>;
 }

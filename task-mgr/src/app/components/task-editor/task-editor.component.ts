@@ -4,8 +4,9 @@ import { validDateCheck } from "src/app/utils/valid-date";
 import { MatSnackBar } from "@angular/material";
 import { Task } from "src/app/models/task";
 import { TaskService } from "src/app/services/task.service";
-import { of } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { ParentTask } from "src/app/models/parent-task";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-task-editor",
@@ -13,7 +14,7 @@ import { map, startWith } from "rxjs/operators";
   styleUrls: ["./task-editor.component.scss"]
 })
 export class TaskEditorComponent implements OnInit {
-  @Input() mode;
+  @Input() mode: string;
 
   @Input("task") taskObj: Task;
 
@@ -22,13 +23,17 @@ export class TaskEditorComponent implements OnInit {
   taskForm: FormGroup;
 
   title: string;
+
   btnTxt: string;
 
-  parents: any;
+  primaryDisable: boolean = true;
+  secondaryDisable: boolean = false;
 
-  parentTaskName;
+  parents: Array<ParentTask>;
 
-  filteredParents;
+  parentTaskName: string;
+
+  filteredParents: Observable<Array<ParentTask>>;
 
   constructor(
     private taskService: TaskService,
@@ -43,15 +48,22 @@ export class TaskEditorComponent implements OnInit {
 
     this.taskObj = this.taskObj || new Task();
 
-    let parentTask = this.taskService.getParentTask(this.taskObj.parentTask);
+    const parentTask: ParentTask = this.taskService.getParentTask(
+      this.taskObj.parentTaskId
+    );
 
     let taskFormGroup = {
-      task: new FormControl(this.taskObj.task || "", Validators.required),
+      taskName: new FormControl(
+        this.taskObj.taskName || "",
+        Validators.required
+      ),
       priority: new FormControl(
         this.taskObj.priority || "0",
         Validators.required
       ),
-      parentTask: new FormControl(parentTask ? parentTask.ParentTaskName : ""),
+      parentTaskName: new FormControl(
+        parentTask ? parentTask.parentTaskName : ""
+      ),
       startDate: new FormControl(this.taskObj.startDate || new Date(), [
         Validators.required,
         validDateCheck
@@ -70,7 +82,7 @@ export class TaskEditorComponent implements OnInit {
       this._snackBar.dismiss()
     );
 
-    this.filteredParents = taskFormGroup.parentTask.valueChanges.pipe(
+    this.filteredParents = taskFormGroup.parentTaskName.valueChanges.pipe(
       startWith(""),
       map(val => {
         this.parentTaskName = val;
@@ -79,35 +91,39 @@ export class TaskEditorComponent implements OnInit {
     );
 
     this.taskForm = new FormGroup(taskFormGroup);
+
+    this.taskForm.statusChanges.subscribe(
+      (status: string) => (this.primaryDisable = status !== "VALID")
+    );
   }
 
-  _filterParentTasks(val) {
-    const filterValue = val.toLowerCase();
-    let parentTaskName = "";
-    return this.parents.filter(parent => {
-      parentTaskName = parent.ParentTaskName || "";
-      return parentTaskName.toLowerCase().indexOf(filterValue) === 0;
+  _filterParentTasks(val: string) {
+    const filterValue: string = val.toLowerCase();
+    let parentTask: string;
+    return this.parents.filter(({ parentTaskName }: ParentTask) => {
+      parentTask = parentTaskName || "";
+      return parentTask.toLowerCase().indexOf(filterValue) === 0;
     });
   }
 
-  processTaskForm(taskFormObj) {
-    if (
-      taskFormObj.endDate &&
-      taskFormObj.endDate - taskFormObj.startDate < 0
-    ) {
+  processTaskForm(taskFormObj: Task) {
+    const { endDate, startDate, parentTaskName: name } = taskFormObj;
+    if (endDate && +endDate - +startDate < 0) {
       this._snackBar.open("Mentioned End Date is prior to Start Date");
       this.taskForm.get("endDate").setErrors({ validRange: false });
     } else {
-      let parentTask = this.parents.find(
-        parent => parent.ParentTaskName === taskFormObj.parentTask
+      const parentTaskObj: ParentTask = this.parents.find(
+        ({ parentTaskName }: ParentTask) => parentTaskName === name
       );
-      let parentTaskID = parentTask ? parentTask.ParentTaskID : -1;
+      const parentTaskId = parentTaskObj ? parentTaskObj.parentTaskId : -1;
       this.emitTask.emit(
         Object.assign(taskFormObj, {
-          parentTask: parentTaskID,
+          parentTaskId,
           parentTaskName: this.parentTaskName
         })
       );
+      this.primaryDisable = true;
+      this.secondaryDisable = true;
     }
   }
 }

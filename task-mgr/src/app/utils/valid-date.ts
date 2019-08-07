@@ -1,10 +1,11 @@
 import { AbstractControl } from "@angular/forms";
 
-export function validDateCheck(control: AbstractControl) {
-  if (control.value && isNaN(+control.value)) {
-    let parts = control.value.split("/");
+export function validDateCheck({ value }: AbstractControl) {
+  if (value && isNaN(+value)) {
+    const parts = value.split("/");
+    const [year, month, date] = parts;
     if (parts.length === 3) {
-      return { validDate: !isNaN(+new Date(parts[2], parts[1], parts[0])) };
+      return { validDate: !isNaN(+new Date(year, parseInt(month) + 1, date)) };
     } else {
       return { validDate: false };
     }
