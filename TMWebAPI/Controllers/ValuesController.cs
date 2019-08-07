@@ -58,11 +58,8 @@ namespace TMWebAPI.Controllers
         //    TaskManagerRepository parentTaskRep = new TaskManagerRepository();
         //    return _modelFactory.GetTaskModel(parentTaskRep.GetTaskRepo(taskID));
         //}
-        [HttpPost]
-        public IHttpActionResult CreateParentTask([FromBody]ParentTaskModel parentTask)
+        public int CreateParentTask([FromBody]ParentTaskModel parentTask)
         {
-            if (!ModelState.IsValid)
-                return BadRequest("Not a valid data");
             try
             {
                 TaskManagerRepository parentTaskRep = new TaskManagerRepository();
@@ -70,14 +67,11 @@ namespace TMWebAPI.Controllers
                 {
                     Parent_Task = parentTask.ParentTaskName,
                 };
-                string result = "{'ParentTaskID': " + parentTaskRep.CreateParentTask(parentTaskDb) + "}";
-                JObject json = JObject.Parse(result);
-                return Ok<JObject>(json);
-
+                return parentTaskRep.CreateParentTask(parentTaskDb);
             }
             catch (Exception ex)
             {
-                return BadRequest("Error occurred in CreateParentTask :" + ex.StackTrace);
+                return 0;
             }
 
         }
@@ -140,8 +134,7 @@ namespace TMWebAPI.Controllers
                 }
                 else if (parentTask.ParentTaskID == -1)
                 {
-                    CreateParentTask(parentTask);
-                    return TaskDBChanges(parentTask.Task.FirstOrDefault());
+                    return TaskDBChanges(parentTask.Task.FirstOrDefault(), CreateParentTask(parentTask));
                 }
                 else
                 {
