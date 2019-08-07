@@ -55,6 +55,11 @@ namespace TaskReference
         {
             TaskManagerDbEntities tmdb = new TaskManagerDbEntities();
             Task_Tbl TaskDb = tmdb.Task_Tbl.Find(Task.Task_ID);
+            TaskDb.Priority = Task.Priority;
+            TaskDb.Start_Date = Task.Start_Date;
+            TaskDb.End_Date = Task.End_Date;
+            TaskDb.Parent_ID= Task.Parent_ID;
+            TaskDb.Is_Completed = Task.Is_Completed;
             tmdb.Entry(TaskDb).CurrentValues.SetValues(Task);
             tmdb.SaveChanges();
             return Task.Task_ID;
